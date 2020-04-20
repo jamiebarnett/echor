@@ -21,6 +21,9 @@ async fn main() {
 
     println!("listening on port {} for oncoming requests to {}", config.port, config.path);
 
+    // TODO panics if any /'s are present in path.
+    // Parse path passed to app and supply using path macro
+    // or use another framework that can handle an exact path as a string.
     let post = warp::post()
         .and(warp::path(config.path))
         .and(warp::body::bytes())
@@ -53,4 +56,8 @@ fn get_args(matches: ArgMatches) -> Config {
         port,
         path: path.to_owned()
     }
+}
+
+fn get_path(path: String) -> warp::path:: {
+
 }
