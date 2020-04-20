@@ -1,3 +1,4 @@
+use bytes::Bytes;
 use clap::{Arg, App, ArgMatches};
 use warp::{http::StatusCode, http::Response, Filter};
 
@@ -22,15 +23,15 @@ async fn main() {
 
     let post = warp::post()
         .and(warp::path(config.path))
-        .and(warp::body::json())
+        .and(warp::body::bytes())
         .and_then(handler);
 
     warp::serve(post).run(([0, 0, 0, 0], config.port)).await;
 
 }
 
-async fn handler(body: String) -> Result<impl warp::Reply, warp::Rejection> {
-    println!("{}", body);
+async fn handler(body: Bytes) -> Result<impl warp::Reply, warp::Rejection> {
+    println!("{:?}", body);
     Ok(StatusCode::OK)
 }
 
