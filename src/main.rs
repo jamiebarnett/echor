@@ -1,14 +1,19 @@
-use bytes::Bytes;
+extern crate iron;
+extern crate router;
+
 use clap::{Arg, App, ArgMatches};
-use warp::{http::StatusCode, http::Response, Filter};
+
+use iron::prelude::*;
+use iron::status;
+use router::Router;
+use std::io::Read;
 
 struct Config {
     port: u16,
-    path: String
+    path: String,
 }
 
-#[tokio::main]
-async fn main() {
+fn main() {
     let matches = App::new("echor")
         .version("1.0")
         .author("Jamie Barnett")
@@ -19,23 +24,32 @@ async fn main() {
 
     let config = get_args(matches);
 
-    println!("listening on port {} for oncoming requests to {}", config.port, config.path);
+    println!("listening on port {} for incoming requests to {}", config.port, config.path);
 
-    // TODO panics if any /'s are present in path.
-    // Parse path passed to app and supply using path macro
-    // or use another framework that can handle an exact path as a string.
-    let post = warp::post()
-        .and(warp::path(config.path))
-        .and(warp::body::bytes())
-        .and_then(handler);
+    let mut router = Router::new();
+    router.post(config.path, handler, "index");
 
-    warp::serve(post).run(([0, 0, 0, 0], config.port)).await;
+    Iron::new(router).http(format!("localhost:{}", config.port)).unwrap();
 
 }
 
-async fn handler(body: Bytes) -> Result<impl warp::Reply, warp::Rejection> {
-    println!("{:?}", body);
-    Ok(StatusCode::OK)
+fn handler(req: &mut Request) -> IronResult<Response> {
+
+    println!("received {} request to {}", req.method, req.url);
+
+    let mut payload = String::new();
+    req.body.read_to_string(&mut payload).unwrap();
+
+    match payload.as_str() {
+        "" => {
+            println!("with no body")
+        }
+        _=> {
+            println!("with body : {}", payload)
+        }
+    }
+
+    Ok(Response::with(status::Ok))
 }
 
 fn get_args(matches: ArgMatches) -> Config {
@@ -52,8 +66,8 @@ fn get_args(matches: ArgMatches) -> Config {
         None => 7000
     };
 
-    Config{
+    Config {
         port,
-        path: path.to_owned()
+        path: path.to_owned(),
     }
 }
