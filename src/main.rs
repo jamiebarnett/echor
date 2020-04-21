@@ -1,6 +1,5 @@
 extern crate iron;
 extern crate router;
-extern crate bodyparser;
 
 use clap::{Arg, App, ArgMatches};
 
@@ -50,7 +49,7 @@ fn handler(req: &mut Request) -> IronResult<Response> {
         }
     }
 
-    Ok(Response::with((status::Ok)))
+    Ok(Response::with(status::Ok))
 }
 
 fn get_args(matches: ArgMatches) -> Config {

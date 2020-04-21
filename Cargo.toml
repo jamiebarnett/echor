@@ -9,12 +9,5 @@ edition = "2018"
 [dependencies]
 
 clap = "2.33.0"
-warp = "0.2.2"
-tokio = {version = "0.2", features = ["full"]}
-bytes = "0.5.4"
 iron = "0.6.1"
 router = "*"
-
-[dependencies.bodyparser]
-
-git = "https://github.com/iron/body-parser.git"
