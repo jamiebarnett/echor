@@ -57,7 +57,3 @@ fn get_args(matches: ArgMatches) -> Config {
         path: path.to_owned()
     }
 }
-
-fn get_path(path: String) -> warp::path:: {
-
-}
