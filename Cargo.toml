@@ -1,10 +1,15 @@
 [package]
 name = "echor"
-version = "0.1.0"
-authors = ["Jamie Barnett <jamie.barnett@entura.co.uk>"]
-edition = "2018"
+version = "1.0.0"
+authors = ["Jamie Barnett <jamiebarnett1992@gmail.com>"]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+license = "MIT OR Apache-2.0"
+description = "A tool to search files"
+readme = "README.md"
+homepage = "https://github.com/jamiebarnett/echor"
+repository = "https://github.com/jamiebarnett/echor"
+keywords = ["cli", "http", "post", "server", "echo"]
+categories = ["command-line-utilities"]
 
 [dependencies]
 
