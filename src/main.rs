@@ -1,5 +1,6 @@
 extern crate iron;
 extern crate router;
+extern crate clap;
 
 use clap::{Arg, App, ArgMatches};
 
