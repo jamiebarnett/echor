@@ -15,4 +15,4 @@ categories = ["command-line-utilities"]
 
 clap = "2.33.0"
 iron = "0.6.1"
-router = "*"
+router = "0.6.0"
